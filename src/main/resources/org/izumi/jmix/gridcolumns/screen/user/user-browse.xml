@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://jmix.io/schema/ui/window"
+        caption="msg://UserBrowse.caption"
+        focusComponent="usersTable">
+
+    <data readOnly="true">
+        <collection id="usersDc" class="org.izumi.jmix.gridcolumns.entity.User">
+            <fetchPlan extends="_base"/>
+            <loader id="usersDl">
+                <query>
+                    <![CDATA[select e from User e order by e.username]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+
+    <actions>
+        <action id="lookupSelectAction"
+                caption="msg:///actions.Select"
+                icon="LOOKUP_OK"
+                primary="true"
+                shortcut="${COMMIT_SHORTCUT}"/>
+        <action id="lookupCancelAction"
+                caption="msg:///actions.Cancel"
+                icon="LOOKUP_CANCEL"/>
+    </actions>
+
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+        <screenSettings auto="true"/>
+        <presentations auto="true"/>
+    </facets>
+
+    <dialogMode height="600" width="800"/>
+
+    <layout spacing="true" expand="usersGrid">
+        <filter id="filter" dataLoader="usersDl">
+            <properties include=".*"/>
+        </filter>
+        <dataGrid id="usersGrid" dataContainer="usersDc" width="100%">
+            <columns>
+                <column id="generated" caption="Generated">>
+                    <componentRenderer/>
+                </column>
+                <column property="username"/>
+                <column property="firstName"/>
+                <column property="lastName"/>
+                <column property="email"/>
+                <column property="timeZoneId"/>
+                <column property="active"/>
+            </columns>
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                <button id="toggleGeneratedBtn" caption="Toggle generated"/>
+                <button id="toggleUsernameBtn" caption="Toggle username"/>
+            </buttonsPanel>
+        </dataGrid>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>
